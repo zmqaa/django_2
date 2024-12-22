@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+
+    <!-- 选择列字段 -->
+    <div>
+        <label>{{ form.columns.label }}</label>
+        <div>
+            <input type="checkbox" id="select-all-columns"> 全选
+        </div>
+        {{ form.columns }}
+    </div>
+
+    <!-- 缺失值处理方法 -->
+    <div>
+        <label>{{ form.missing_method.label }}</label>
+        {{ form.missing_method }}
+    </div>
+
+    <!-- 异常值处理方法 -->
+    <div>
+        <label>{{ form.outlier_method.label }}</label>
+        {{ form.outlier_method }}
+    </div>
+
+    <!-- 异常值阈值 -->
+    <div>
+        <label>{{ form.outlier_threshold.label }}</label>
+        {{ form.outlier_threshold }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">提交</button>
+</form>
+
+<script>
+    // 添加全选功能
+    document.getElementById('select-all-columns').addEventListener('change', function(e) {
+        const checkboxes = document.querySelectorAll('input[name="columns"]');
+        for (const checkbox of checkboxes) {
+            checkbox.checked = e.target.checked;
+        }
+    });
+</script>
+
+{% endblock %}

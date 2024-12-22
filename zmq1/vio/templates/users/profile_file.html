@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}文件中心{% endblock %}
+
+{% block content %}
+    <h2>我的文件列表</h2>
+    <ul>
+        {% for file in files %}
+            <li>
+                <div>{{ file.original_name }}</div>
+                <small>{{ file.uploaded_at|date:'y-m-d H:i' }}</small>
+                 <a href="{% url 'delete_file' file.id %}" onclick="return confirm('确定删除该文件吗？')">删除</a>
+                <a href="{% url 'download_file' file.id %}">下载</a>
+                <a href="{% url 'data_shape' file.id %}">查看</a>
+                <a href="{% url 'process_data' file.id %}">处理</a>
+                <a href="{% url 'visualization' file.id %}">可视化</a>
+            </li>
+        {% empty %}
+            <li>暂无文件</li>
+        {% endfor %}
+    </ul>
+    <h3>上传</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">上传文件</button>
+    </form>
+{% endblock %}
